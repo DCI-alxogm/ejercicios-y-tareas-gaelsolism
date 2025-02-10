@@ -3,8 +3,8 @@
 int main ()
 {
 printf ("hola gael \n");
-printf ("Este es mi primer programa del curso \n");
+printf ("Este es mi primer programa del curso, \n");
 
-//termine de escribir el programa
+//termine de escribir el programa,.
 return 0;
 }
