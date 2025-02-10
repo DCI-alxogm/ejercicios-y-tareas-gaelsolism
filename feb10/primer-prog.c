@@ -1,4 +1,4 @@
-/* creado el lunes 10 de febrero del 2025*/
+/* creado el lunes 10 de febrero del 2025.*/
 #include<stdio.h>
 int main ()
 {
