@@ -1,117 +1,236 @@
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-//cristian Gael Solis Mercado, ing Quimica Sustentable, 12 mrzo 2025
-int main() {
-    char opc_gral;
-    int opc_unidades;
-    float m, kg, c, l;
-    float ft, lb, f, gal;
-    int opc_coordenadas;
-    char respuesta_rad[4];
-    float x, y, z, r, theta, phi;
+#include<stdio.h>
+#include<math.h>
+#include<string.h>
+#include<stdlib.h>
+int main (){
+    //es la variable donde se guarda el primer menu que albergara todas las instrucciones generales
+int opcion_menu;
+//segunda variable de almacen tipo char para temperatura
+char opc_temp;
+//variables del caso 1 temperatura
+float tk,tc;
+// variables de la seccion 2 coordenadas
+float r_cil,r_esf,theta,phi,x,y,z;
+//variable de respuesta si quieres ttrabajar en radianes o no; 
+char respuesta_rad[4];
+//variiable de memoria switch anidado, si el usuario decida que coordenadas tomar
+char opc_coordenadas;
+//opcion de memoria para el switch final del caso 3 
+char opc_conversion;
+//variables del caso 3 
+float kg,lb,temperatura_celsius_tercer_caso,tf,Litros,Galones,metros,pies;
 
-    printf("Bienvenido, seleccione la accion que desea hacer\n");
-    printf("Nota: Por favor elija la opcion en Mayusculas\n");
-    printf("A) Conversion de unidades SI a sistema ingles\n");
-    printf("B) Coordenadas cartesianas\n");
-    scanf(" %c", &opc_gral);
 
-    switch (opc_gral) {
-        case 'A':
-            printf("Ha elegido la conversion de unidades a sistema ingles\n");
-            printf("Elija la opcion que desea:\n");
-            printf("1.- Longitud (m a ft)\n");
-            printf("2.- Masa (kg a lb)\n");
-            printf("3.- Temperatura (C a F)\n");
-            printf("4.- Volumen (L a gal)\n");
-            scanf("%d", &opc_unidades);
 
-            switch (opc_unidades) {
-                case 1:
-                    printf("Ingrese la cantidad de longitud en metros:\n");
-                    scanf("%f", &m);
-                    ft = m * 3.28084;
-                    printf("%.2f metros equivalen a %.2f pies\n", m, ft);
-                    break;
-                case 2:
-                    printf("Ingrese la cantidad de masa en kg:\n");
-                    scanf("%f", &kg);
-                    lb = kg * 2.20462;
-                    printf("%.2f kg equivalen a %.2f libras\n", kg, lb);
-                    break;
-                case 3:
-                    printf("Ingrese la cantidad de temperatura en Celsius:\n");
-                    scanf("%f", &c);
-                    f = (c * 1.8) + 32;
-                    printf("%.2f C equivalen a %.2f F\n", c, f);
-                    break;
-                case 4:
-                    printf("Ingrese la cantidad de volumen en litros:\n");
-                    scanf("%f", &l);
-                    gal = l * 0.264172;
-                    printf("%.2f litros equivalen a %.2f galones\n", l, gal);
-                    break;
-                default:
-                    printf("Opcion no valida\n");
-            }
-            break;
+//primer menu visible
+printf("bienvenido, seleccione el numero de la instruccion que desee ejecutar.\n");
+printf("1.-transformaci贸n de temperatura\n");
+printf("2.- Transformacion de coordenadas\n");
+printf("3.-Conversion de unidades del SI al sistema ingl茅s\n");
+scanf("%d",&opcion_menu);
+switch(opcion_menu){
+    case 1:
+    
+    //primer switch anidado
+    printf("a) Celsius a Kelvin\n");
+    printf("b) kelvin a Celsius\n");
+    scanf(" %c",&opc_temp);//debe de ir un espacio antes del %c para evitar conflictos
+    switch(opc_temp){
+case 'a':
+printf("introduzca sus grados Celsius\n");
+scanf("%f",&tc);
+tk = tc + 273.150;
+printf("%f en celsius son %f kelvin",tc,tk);
+break;
+case 'b':
+printf("introduzca sus kelvin");
+scanf("%f",&tk);
+tc = tk -  273.15;
+printf("%f en kelvin son %f celsius ",tk,tc);
+break;
+default:
+printf("opcion no valida");
 
-        case 'B':
-            printf("Ha elegido conversion de coordenadas cartesianas\n");
-            printf("Seleccione la conversion:\n");
-            printf("1.- A coordenadas esfericas\n");
-            printf("2.- A coordenadas cilindricas\n");
-            scanf("%d", &opc_coordenadas);
-
-            printf("Ingrese las coordenadas cartesianas (x, y, z):\n");
-            scanf("%f %f %f", &x, &y, &z);
-
-            printf("緿esea los resultados en radianes? (si/no)\n");
-            scanf("%s", respuesta_rad);
-            int en_radianes = strcmp(respuesta_rad, "si") == 0;
-
-            switch (opc_coordenadas) {
-                case 1: // Conversi髇 a esf閞icas
-                    r = sqrt(x * x + y * y + z * z);
-                    theta = acos(z / r);
-                    phi = atan2(y, x);
-
-                    if (!en_radianes) { // Convertir a grados si es necesario
-                    theta = theta * (180.0 / M_PI);
-                    phi = phi * (180.0 / M_PI);
-
-                    }
-
-                    printf("Coordenadas esfericas:\n");
-                    printf("r = %.2f\n", r);
-                    printf("theta = %.2f %s\n", theta, en_radianes ? "radianes" : "grados");
-                    printf("phi = %.2f %s\n", phi, en_radianes ? "radianes" : "grados");
-                    break;
-
-                case 2: // Conversi髇 a cil韓dricas
-                    r = sqrt(x * x + y * y);
-                    theta = atan2(y, x);
-
-                    if (!en_radianes) {
-                theta = theta * (180.0 / M_PI);
-
-                    }
-
-                    printf("Coordenadas cilindricas:\n");
-                    printf("r = %.2f\n", r);
-                    printf("theta = %.2f %s\n", theta, en_radianes ? "radianes" : "grados");
-                    printf("z = %.2f\n", z);
-                    break;
-
-                default:
-                    printf("Opcion no v醠ida\n");
-            }
-            break;
-
-        default:
-            printf("Opcion no valida\n");
+                     }
+break;
+    
+    
+    
+    //inicia caso coordenadas
+    case 2:
+    
+    printf("desea trabajar en radianes?\n");
+    scanf(" %s",respuesta_rad);
+    if(strcmp(respuesta_rad,"si")== 0)
+    {
+    printf("c)cartesianas a esfericas\n");
+    printf("d)cartesianas a cilindricas\n");
+    scanf(" %c",&opc_coordenadas);
+    switch(opc_coordenadas){
+  
+    case 'c':
+    //se puede usar un mismo scanf para varias variables
+    printf("introduzca sus coordenadas x,y,z  respectivamente\n");
+    scanf("%f %f %f",&x, &y, &z);
+   
+    //se definen las variables donde vamos a almacenar los resultados
+     r_esf = sqrt((x*x)+(y*y)+(z*z));
+    
+     //esta instrucci贸n es mas viable para arcotangente, 
+     //la funcion atan no lee bien los cuadrantes
+     theta = atan2(y,x);
+     phi = acos((z)/(r_esf));
+    
+    
+     //salida del codigo para esfericas.
+     printf("para esfericas \n");
+      printf("r es %f \n",r_esf);
+     printf("theta es %f \n",theta);
+     printf("phi es %f \n",phi);
+    break;
+       
+       case 'd':
+       //se puede usar un mismo scanf para varias variables
+    printf("introduzca sus coordenadas x,y,z  respectivamente\n");
+    scanf("%f %f %f",&x, &y, &z);
+   
+    //se definen las variables donde vamos a almacenar los resultados
+    r_cil = sqrt((x*x)+(y*y));
+     
+     //esta instrucci贸n es mas viable para arcotangente, 
+     //la funcion atan no lee bien los cuadrantes
+     theta = atan2(y,x);
+    
+     //salida del codigo para cilindricas.
+     printf("para cilindricas es:\n");
+     printf("r es %f \n",r_cil);
+     printf("theta es %f \n",theta);
+    break;
+     
+     default:
+     printf("opcion no valida");
+     break;
     }
+    } 
+    
+   
+   
+   
+   
+   
+   
+    else
+    {
+    printf("c)cartesianas a esfericas\n");
+    printf("d)cartesianas a cilindricas\n");
+    scanf(" %c",&opc_coordenadas);
+    switch(opc_coordenadas){
+  
+    case 'c':
+    //se puede usar un mismo scanf para varias variables
+    printf("introduzca sus coordenadas x,y,z  respectivamente\n");
+    scanf("%f %f %f",&x, &y, &z);
+   
+    //se definen las variables donde vamos a almacenar los resultados
+     r_esf = sqrt((x*x)+(y*y)+(z*z));
+    
+     //esta instrucci贸n es mas viable para arcotangente, 
+     //la funcion atan no lee bien los cuadrantes
+     theta = atan2(y,x)*(180.0/3.1416);
+     phi = acos((z)/(r_esf))*(180.0/3.1416);
+    
+    
+     //salida del codigo para esfericas.
+     printf("para esfericas \n");
+      printf("r es %f \n",r_esf);
+     printf("theta es %f \n",theta);
+     printf("phi es %f \n",phi);
+    break;
+       
+       case 'd':
+       //se puede usar un mismo scanf para varias variables
+    printf("introduzca sus coordenadas x,y,z  respectivamente\n");
+    scanf("%f %f %f",&x, &y, &z);
+   
+    //se definen las variables donde vamos a almacenar los resultados
+    r_cil = sqrt((x*x)+(y*y));
+     
+     //esta instrucci贸n es mas viable para arcotangente, 
+     //la funcion atan no lee bien los cuadrantes
+     theta = atan2(y,x)*(180.0/3.1416);
+    
+     //salida del codigo para cilindricas.
+     printf("para cilindricas es:\n");
+     printf("r es %f \n",r_cil);
+     printf("theta es %f \n",theta);
+    
+     break;
+    }
+    
+        
+    }
+    
+    
+   
+        break;// fin del caso 273
+        
+        
+        
+        
+        //dios mio empezo el caso 3 cre铆 no lograrlo hasta aqu铆.
+            case 3:
+            printf("haz elegido la conversion del SI al Sist. ingles\n");
+            printf("e)kilogramos kg a libras lb\n");
+            printf("f)metros m a pies ft\n");
+            printf("g)Litros L a Galones Gal\n");
+            printf("h) celsius a Fahrenheit\n");
+            scanf(" %c",&opc_conversion);
+            switch(opc_conversion){
+                case 'e':
+                printf("ingrese los kilogramos a convertir\n");
+                scanf("%f",&kg);
+                lb = kg * 2.20462;
+                printf("%f kg son %f lb",kg,lb);
+                break;
+                
+                case 'f':
+                printf("introduzca la unidad en metros\n");
+                scanf("%f",&metros);
+                pies = metros * 3.28084;
+                printf("%f metros son %f pies",metros,pies);
+                break;
+                
+                case 'g':
+                printf("introduzca unidad de litros\n");
+                scanf("%f",&Litros);
+                Galones = Litros * 0.264172;
+                printf("%fL es equivalente a %f Gal",Litros,Galones);
+                break;
+                
+                case 'h':
+                printf("introduzca escala de Celsius\n");
+                scanf("%f",&temperatura_celsius_tercer_caso);
+                tf = (temperatura_celsius_tercer_caso * 1.8) + 32;
+                printf("%f Celsius son %f Fahrenheit",temperatura_celsius_tercer_caso,tf);
+                break;
+                
+                default:
+                printf("opcion no valida");
+                break;
+                 }
+            
+             break;
+             
+             
+             
+                default:
+                    printf("opcion no valida");
+                break;
 
-    return 0;
+}
+
+
+
+
+return 0;
 }
